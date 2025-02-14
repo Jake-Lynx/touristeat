@@ -1,45 +1,23 @@
-import HeroMeal from "@/components/hero/hero-meal";
-import ChiefCard from "@/components/card/chief-card"
-import SimpleCard from "@/components/card/simple-card"
-import Advantages from "@/components/ui/advantages";
-import { getMeals } from "@/actions/meals";
+// Actions & other lib
+import { Suspense } from "react";
+
+// Components
+import HeroHome from "@/components/hero/hero-home";
+import ShowMeal from "@/components/ui/show-meal"
+import { SkeletonMealCard } from "@/components/skeleton/skeleton-meal-card";
+
+// Next
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Home() {
 
-  const meals = await getMeals()
+export default function Home() {
 
   return (
     <>
       {/* Hero image */}
       <section className="home-hero">
-        <div className="home-hero__main-section">
-          <div className="home-hero__value only-md">
-            <Advantages />
-          </div>
-          <h1 className="home-hero__title">
-            Que mange-t-on aujourd'hui ?
-          </h1>
-          <HeroMeal
-            className="only-xl"
-            imagePath="/images/header_roast.png"
-            alt="Poulet rôti"
-          />
-          <HeroMeal
-            className="only-md"
-            imagePath="/images/header_pizza.png"
-            alt="Pizza"
-          />
-          <HeroMeal
-            className="only-xs"
-            imagePath="/images/hamburger-giant.png"
-            alt="Hamburger"
-          />
-          <div className="home-hero__value only-xl">
-            <Advantages />
-          </div>
-        </div>
+        <HeroHome />
 
         <Link
           href='/recettes'
@@ -69,6 +47,7 @@ export default async function Home() {
             src="/images/cheese.png"
             width={80}
             height={70}
+            style={{ width: 'auto', height: 'auto' }}
           />
           <h2 className="home-recipe__intro-title">
             Goûtez aux recettes du monde entier
@@ -79,28 +58,12 @@ export default async function Home() {
             src="/images/tomato.png"
             width={94}
             height={72}
+            style={{ width: 'auto', height: 'auto' }}
           />
         </div>
-        <div className="home-recipe__list">
-          {meals.slice(0,4)?.map((meal, index) => {
-            let customClass = ''
-            if (index === 2) {
-              customClass = 'above-xs'
-            } else if (index === 3) {
-              customClass = 'only-xl'
-            }
-
-            return (
-              <SimpleCard
-                key={meal.id}
-                id={meal.id}
-                title={meal.title}
-                imageUrl={meal.imageUrl}
-                className={customClass}
-              />
-            )
-          })}
-        </div>
+        <Suspense fallback={<SkeletonMealCard />}>
+          <ShowMeal card="simple" />
+        </Suspense>
         <a className="cta" href="discovery.html">Voir plus de recettes</a>
       </section>
 
@@ -135,6 +98,7 @@ export default async function Home() {
               src="/images/paella.png"
               width={194}
               height={176}
+              style={{ width: 'auto', height: 'auto' }}
             />
           </div>
         </div>
@@ -143,21 +107,9 @@ export default async function Home() {
       {/* Plats les plus appréciés */}
       <section className="home-like above-xs">
         <h3 className="home-like__title">Les plats les plus appréciés</h3>
-        <div className="home-like__list">
-          {meals?.slice(3, 7).map((meal, index) => {
-            const customClass = index === 3 ? 'only-xl' : ''
-
-            return (
-              <ChiefCard
-                key={meal.id}
-                title={meal.title}
-                imageUrl={meal.imageUrl}
-                country={meal.country}
-                className={customClass}
-              />
-            )
-          })}
-        </div>
+        <Suspense fallback={<SkeletonMealCard />}>
+          <ShowMeal card="chief" />
+        </Suspense>
       </section>
     </>
   );

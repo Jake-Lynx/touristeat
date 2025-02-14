@@ -1,21 +1,11 @@
 // Components
 import HeroRecipe from '@/components/hero/hero-recipe';
 import SearchBar from '@/components/ui/search-bar';
-import { SkeletonCard } from '@/components/card/skeleton-card';
+import { SkeletonMealCard } from '@/components/skeleton/skeleton-meal-card';
 
 // Actions & other lib
 import { Suspense } from 'react';
 import RecipeList from './recipe-list';
-
-type RecipeProps = {
-    searchParams: {
-        query?: string;
-        page?: string;
-    }
-}
-
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
 
 export default async function Recipe(
     {searchParams}: {searchParams : Promise<{ query?: string; page?: string }>}
@@ -38,7 +28,7 @@ export default async function Recipe(
             <section className="recipe-content">
                 <Suspense
                     key={query + currentPage}
-                    fallback={<SkeletonCard />}
+                    fallback={<SkeletonMealCard />}
                 >
                     <RecipeList
                         query={query}

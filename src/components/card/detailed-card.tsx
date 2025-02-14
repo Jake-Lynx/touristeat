@@ -14,6 +14,7 @@ export default function DetailedCard(
             width={173}
             height={118}
             quality={85}
+            style={{ width: 'auto', height: 'auto' }}
         />
         <div className="recipe-card__content">
             <p className="recipe-card__details">
@@ -35,6 +36,7 @@ export default function DetailedCard(
                         alt="Icône de partage"
                         width={24}
                         height={24}
+                        style={{ width: 'auto', height: 'auto' }}
                     />
                 </Link>
 
@@ -47,6 +49,7 @@ export default function DetailedCard(
                         alt="Icône en savoir plus"
                         width={24}
                         height={24}
+                        style={{ width: 'auto', height: 'auto' }}
                     />
                 </Link>
             </div>

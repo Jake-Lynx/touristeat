@@ -1,10 +1,12 @@
 'use client'
 
+// React
 import React, { useState } from 'react'
+
+// Actions & other lib
 import { createMeal, updateMeal } from '@/actions/meals'
 import { generateContentAI } from '@/actions/googleAI'
 import { CldUploadWidget } from 'next-cloudinary';
-import Image from 'next/image';
 import countries from "i18n-iso-countries";
 import frLocale from "i18n-iso-countries/langs/fr.json";
 import { ImageUploadProps } from '@/lib/definition';
@@ -13,8 +15,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { mealSchemaType, operationMealSchema, operationMealSchemaType } from '@/utils/schema';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import TipTapEditor from '@/components/ui/tiptap';
 import { Bot, Loader2Icon } from 'lucide-react';
+
+// Next
+import Image from 'next/image';
+
+// Components
+import TipTapEditor from '@/components/ui/tiptap';
 
 countries.registerLocale(frLocale);
 
@@ -22,6 +29,7 @@ interface MealFormProps {
     mode?: 'create' | 'edit';
     initialData?: mealSchemaType;
 }
+
 
 export default function MealForm(
     {mode = 'create', initialData}: MealFormProps

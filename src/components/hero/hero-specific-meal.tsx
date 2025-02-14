@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -7,7 +9,8 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-  } from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb"
+
 
 export default function HeroSpecificMeal(
     {title, country, imageUrl}: {title: string, country: string, imageUrl: string}
@@ -36,6 +39,7 @@ export default function HeroSpecificMeal(
                     alt={`Plat: ${title}`}
                     width={400}
                     height={400}
+                    style={{ width: 'auto', height: 'auto' }}
                 />
                 <div className="specific-recipe-hero__social">
                     <Link 

@@ -1,4 +1,14 @@
+'use client'
+
 import Image from 'next/image';
+
+const preload = () => {
+    const heroImage = new (Image as any)();
+    heroImage.src = '/images/header_cake-recipe.png';
+    heroImage.width = 691;
+    heroImage.height = 378;
+}
+
 
 export default function HeroRecipe() {
     return (

@@ -16,6 +16,7 @@ const Advantages = () => {
                 className="home-hero__value-icon"
                 width={43}
                 height={43}
+                style={{ width: 'auto', height: 'auto' }}
             />
             <span className="home-hero__value-title">
                 {advantage.iconName}

@@ -11,8 +11,8 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({token, account, profile}) {
-            // Check if user exists
-            if (account && profile) {
+            // Check if user exists and 
+            if (account && profile && !token.id) {
                 let user = await prisma.user.findUnique({
                     where: {
                         email: profile.email!

@@ -1,10 +1,8 @@
 import Image from 'next/image';
 
-type HeroMealProps = {
-    className: string;
-    alt: string;
-    imagePath: string;
-}
+// Lib
+import { HeroMealProps } from '@/lib/definition';
+
 
 const HeroMeal = (
     { className, imagePath, alt }: HeroMealProps
@@ -17,6 +15,7 @@ const HeroMeal = (
             src={imagePath} alt={alt}
             width={488}
             height={432}
+            style={{ width: 'auto', height: 'auto' }}
         />
     </section>
   )

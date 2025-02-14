@@ -36,6 +36,12 @@ export type ContinentProps = {
 
 export type getMealType = typeof getMeals
 
+export type HeroMealProps = {
+  className: string;
+  alt: string;
+  imagePath: string;
+}
+
 export interface Post {
   id: number;
   title: string;

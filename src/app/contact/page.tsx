@@ -23,6 +23,7 @@ export default function Contact() {
                     width={500}
                     height={500}
                     className="contact-container__image fade-in"
+                    style={{ width: 'auto', height: 'auto' }}
                 />
             </section>
         </>

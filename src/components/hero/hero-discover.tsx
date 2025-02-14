@@ -1,5 +1,12 @@
-import React from 'react'
 import Image from 'next/image';
+
+export const preload = () => {
+    const heroImage = new (Image as any)();
+    heroImage.src = '/images/header_cake.png';
+    heroImage.width = 566;
+    heroImage.height = 298;
+}
+
 
 export default function HeroDiscover() {
     return (

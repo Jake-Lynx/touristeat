@@ -49,6 +49,7 @@ export default async function DisheRecipe(
                         alt="Compte à rebours"
                         width={172}
                         height={200}
+                        style={{ width: 'auto', height: 'auto' }}
                     />
                     <h2     
                         className="specific-recipe-content__timing-title"

@@ -2,10 +2,9 @@ import { MealCardProps } from '@/lib/definition'
 import Image from 'next/image'
 import Link from 'next/link'
 
-type MealChiefIconProps = MealCardProps
 
 export default function ChiefCard(
-    {title, country, imageUrl, className}: MealChiefIconProps
+    {title, country, imageUrl, className}: MealCardProps
 ) {
     return (
         <div
@@ -17,6 +16,7 @@ export default function ChiefCard(
                 alt={`Plat: ${title}`}
                 width={173}
                 height={118}
+                style={{ width: 'auto', height: 'auto' }}
             />
             <div className="discovery-card__content">
                 <p className="discovery-card__details">
@@ -40,6 +40,7 @@ export default function ChiefCard(
                         alt={`Découvrir la recette de ${title}`}
                         width={30}
                         height={30}
+                        style={{ width: 'auto', height: 'auto' }}
                     />
                 </Link>
             </div>
