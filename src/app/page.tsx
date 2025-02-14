@@ -1,101 +1,164 @@
+import HeroMeal from "@/components/hero/hero-meal";
+import ChiefCard from "@/components/card/chief-card"
+import SimpleCard from "@/components/card/simple-card"
+import Advantages from "@/components/ui/advantages";
+import { getMeals } from "@/actions/meals";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+
+  const meals = await getMeals()
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      {/* Hero image */}
+      <section className="home-hero">
+        <div className="home-hero__main-section">
+          <div className="home-hero__value only-md">
+            <Advantages />
+          </div>
+          <h1 className="home-hero__title">
+            Que mange-t-on aujourd'hui ?
+          </h1>
+          <HeroMeal
+            className="only-xl"
+            imagePath="/images/header_roast.png"
+            alt="Poulet rôti"
+          />
+          <HeroMeal
+            className="only-md"
+            imagePath="/images/header_pizza.png"
+            alt="Pizza"
+          />
+          <HeroMeal
+            className="only-xs"
+            imagePath="/images/hamburger-giant.png"
+            alt="Hamburger"
+          />
+          <div className="home-hero__value only-xl">
+            <Advantages />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+        <Link
+          href='/recettes'
+          className="cta show-up"
         >
+          Découvrir une nouvelle recette
+        </Link>
+      </section>
+
+      {/* A propos */}
+      <section className="home-about">
+        <h2>Que des délices dans votre cuisine</h2>
+        <p className="home-about__description">
+          Grâce à "Touristeat", restez chez vous tout en profitant des merveilles qui se cuisinent aux quatre coins du monde."Nous réunissons avec amour les meilleurs plats de plusieurs pays de différents continents." Désormais, mangez italien, africain, chinois, russe ou ce que vous souhaitez quand vous en avez envie.
+          <span className="mt-1">
+            De plus, chaque semaine, nous ajoutons de nouvelles recettes, histoire de ravir vos papilles !
+          </span>
+        </p>
+      </section>
+
+      {/* Les plats */}
+      <section className="home-recipe">
+        <div className="home-recipe__intro">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            className="home-recipe__intro-left move-x-infinite" 
+            alt="Fromage"
+            src="/images/cheese.png"
+            width={80}
+            height={70}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+          <h2 className="home-recipe__intro-title">
+            Goûtez aux recettes du monde entier
+          </h2>
           <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+            className="home-recipe__intro-right move-y-infinite" 
+            alt="Grappe de tomage"
+            src="/images/tomato.png"
+            width={94}
+            height={72}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+        <div className="home-recipe__list">
+          {meals.slice(0,4)?.map((meal, index) => {
+            let customClass = ''
+            if (index === 2) {
+              customClass = 'above-xs'
+            } else if (index === 3) {
+              customClass = 'only-xl'
+            }
+
+            return (
+              <SimpleCard
+                key={meal.id}
+                id={meal.id}
+                title={meal.title}
+                imageUrl={meal.imageUrl}
+                className={customClass}
+              />
+            )
+          })}
+        </div>
+        <a className="cta" href="discovery.html">Voir plus de recettes</a>
+      </section>
+
+      {/* Plat du jour */}
+      <section className="home-daily">
+        <h3 className="home-daily__title">
+          Plat du jour
+        </h3>
+        <div className="home-daily__content">
+          <div className="home-daily__description above-xs">
+            <p className="home-daily__text">
+              La paella est un plat de riz traditionnel espagnol originaire de la région de Valence. Bien qu'il existe de nombreuses variantes, la plus célèbre est la paella valencienne, à base de poulet, de lapin et de légumes.
+            </p>
+            <Link
+              className="cta"
+              href="/recipe"
+            >
+              Préparer ce plat
+            </Link>
+          </div>
+          <div className="home-daily__illustration">
+            <Link
+              className="cta only-xs mt-3" 
+              href="/recipe"
+            >
+              Préparer ce plat
+            </Link>
+            <h3>Paella</h3>
+            <Image
+              className="filter-image" 
+              alt="Plat jour"
+              src="/images/paella.png"
+              width={194}
+              height={176}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Plats les plus appréciés */}
+      <section className="home-like above-xs">
+        <h3 className="home-like__title">Les plats les plus appréciés</h3>
+        <div className="home-like__list">
+          {meals?.slice(3, 7).map((meal, index) => {
+            const customClass = index === 3 ? 'only-xl' : ''
+
+            return (
+              <ChiefCard
+                key={meal.id}
+                title={meal.title}
+                imageUrl={meal.imageUrl}
+                country={meal.country}
+                className={customClass}
+              />
+            )
+          })}
+        </div>
+      </section>
+    </>
   );
 }
