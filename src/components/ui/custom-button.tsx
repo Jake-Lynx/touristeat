@@ -9,7 +9,7 @@ export function DeleteMealButton({ id }: { id: string }) {
         const response = await deleteMeal(id)
 
         if (response.message) {
-            toast.success(response.message)
+            toast.success('Plat supprimé avec succès')
         } else {
             toast.error('Echec de la suppression du plat')            
         }

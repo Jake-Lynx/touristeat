@@ -38,7 +38,7 @@ export default function MealForm(
 
     // States
     const [hostedUrl, setHostedUrl] = useState(initialData?.imageUrl || '')
-    const [isLoading, setIsLoading] = useState({name: '', status: false})
+    const [loading, setLoading] = useState({name: '', status: false})
 
     // Countries config
     const countriesArray = countries.getNames("fr", {select: "official"})
@@ -76,7 +76,7 @@ export default function MealForm(
             return
         }
 
-        setIsLoading({name: 'ingredients', status: true})
+        setLoading({name: 'ingredients', status: true})
 
         try {
             const ingredientsNeeded = await generateContentAI(`
@@ -136,7 +136,7 @@ export default function MealForm(
             console.log(error)
             toast.error("Erreur lors de la génération des ingrédients")
         } finally {
-            setIsLoading({name: 'ingredients', status: false})
+            setLoading({name: 'ingredients', status: false})
         }
     }
 
@@ -152,7 +152,7 @@ export default function MealForm(
             return;
         }
 
-        setIsLoading({name: 'process', status: true})
+        setLoading({name: 'process', status: true})
         
         try {
             const processNeeded = await generateContentAI(`
@@ -197,7 +197,7 @@ export default function MealForm(
             console.log(error)
             toast.error("Erreur lors de la génération du processus de préparation. Veuillez réessayer plus tard.")
         } finally {
-            setIsLoading({name: 'process', status: false})
+            setLoading({name: 'process', status: false})
         }
     }
 
@@ -224,7 +224,11 @@ export default function MealForm(
 
             reset()
             setHostedUrl('')
-            toast.success(`La recette "${data.title}" a été ajoutée avec succès.`)
+            if (mode === 'create') {
+                toast.success(`La recette "${data.title}" a été ajoutée avec succès.`)
+            } else {
+                toast.success(`La recette "${data.title}" a été modifiée avec succès.`)
+            }
             router.push('/admin/meals')
         } catch (error) {
             console.log(error);
@@ -248,31 +252,40 @@ export default function MealForm(
                         <CldUploadWidget
                             uploadPreset="touristeat_preset"
                             onSuccess={(results) => handleImage(results)}
-                        >
-                            {({ open, isLoading }) => {
-                                return (
-                                    <>
-                                    {isLoading
-                                    ? 
-                                        <button
-                                            className='bg-white p-1 rounded-lg'
-                                        >
-                                            Affichage du plat...
-                                        </button>
-                                    :
-                                        <button
-                                            className='bg-white p-1 rounded-lg'
-                                            onClick={(e) => {
-                                                e.preventDefault()
-                                                open()
-                                            }}
-                                        >
-                                            Ajouter l'image du plat
-                                        </button>                                    
-                                    }
-                                    </>
-                                )
+                            options={{
+                                maxFiles: 1,
+                                resourceType: 'image',
+                                clientAllowedFormats: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'],
+                                maxImageFileSize: 2000000, // 2MB max for image file
+                                // Transformation
+                                thumbnailTransformation: [
+                                    {width: 200, height: 200, crop: 'fill'},
+                                    { quality: "auto" },
+                                    { fetch_format: "auto" },
+                                    { dpr: "auto" }
+                                ]
                             }}
+                        >
+                            {({ open, isLoading }) => (
+                                <button
+                                    className='bg-white p-1 rounded-lg'
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        open()
+                                    }}
+                                    disabled={isLoading}
+                                >
+                                    {isLoading
+                                        ? (
+                                            <>
+                                                <Loader2Icon className='animate-spin pr-1' />
+                                                Chargement de l'image...
+                                            </>
+                                        )
+                                        : "Ajouter l'image du plat"
+                                    }
+                                </button>
+                            )}
                         </CldUploadWidget>
                     </div>
                     <div className='mb-4'>
@@ -347,9 +360,9 @@ export default function MealForm(
                         <button
                             onClick={generateIngredientsContent}
                             className='bg-white p-1 rounded-lg flex'
-                            disabled={isLoading.name === 'ingredients' && isLoading.status}
+                            disabled={loading.name === 'ingredients' && loading.status}
                         >
-                            {isLoading.name === 'ingredients' && isLoading.status
+                            {loading.name === 'ingredients' && loading.status
                                 ? <Loader2Icon className='animate-spin pr-1' />
                                 : <Bot className='pr-1' />
                             }
@@ -377,9 +390,9 @@ export default function MealForm(
                         <button
                             onClick={generateProcessContent}
                             className='bg-white p-1 rounded-lg flex'
-                            disabled={isLoading.name === 'process' && isLoading.status}
+                            disabled={loading.name === 'process' && loading.status}
                         >
-                            {isLoading.name === 'process' && isLoading.status
+                            {loading.name === 'process' && loading.status
                                 ? <Loader2Icon className='animate-spin pr-1' />
                                 : <Bot className='pr-1' />
                             }
