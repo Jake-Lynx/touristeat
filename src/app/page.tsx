@@ -20,7 +20,7 @@ export default function Home() {
         <HeroHome />
 
         <Link
-          href='/recettes'
+          href='/recipe'
           className="cta show-up"
         >
           Découvrir une nouvelle recette
@@ -64,7 +64,7 @@ export default function Home() {
         <Suspense fallback={<SkeletonMealCard />}>
           <ShowMeal card="simple" />
         </Suspense>
-        <a className="cta" href="discovery.html">Voir plus de recettes</a>
+        <a className="cta" href="/discover">Voir plus de recettes</a>
       </section>
 
       {/* Plat du jour */}

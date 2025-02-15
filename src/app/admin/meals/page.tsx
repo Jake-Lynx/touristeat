@@ -1,7 +1,7 @@
 import { getMeals } from '@/actions/meals'
 import { MealDataTableProps } from '@/lib/definition'
 import Link from 'next/link'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import { columns } from './columns'
 import { DataTable } from './data-table'
@@ -24,7 +24,9 @@ const MealList = async () => {
             >
                 Ajouter une recette
             </Link>
-            <DataTable columns={columns} data={data} />
+            <Suspense fallback={<div>Loading...</div>}>
+                <DataTable columns={columns} data={data} />
+            </Suspense>
         </div>
     )
 }
