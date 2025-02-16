@@ -47,7 +47,7 @@ const Footer = () => {
                     <input className="footer__item footer__newsletter-input" type="email" placeholder="Recevez les dernières actualités" />
                 </div>
                 <p className="footer__item copyright">
-                    <span className="label">&copy; Copyright - Touristeat 2023</span>
+                    <span className="label">&copy; Copyright - Touristeat 2025</span>
                 </p>
             </div>
             <div className="footer__list">
