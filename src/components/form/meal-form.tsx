@@ -156,36 +156,37 @@ export default function MealForm(
         
         try {
 
-            const metadataAndSteps = await generateContentAI(`
-                Generate a french detailed preparation process for "${title}" from "${country}" based on the following ingredients: ${ingredients}. 
-                Each step should be clear and concise and exclude the last step (serving).
-                Please return the response in JSON format like this:
-
-                {
-                    "steps": [
-                        {
-                            "step": 1 (10 minutes),
-                            "description": "Peel and chop the vegetables into small pieces.",
-                            "tip": "Use a sharp knife to make chopping easier."
-                        },
-                        {
-                            "step": 2 (5 minutes),
-                            "description": "Heat oil in a pan over medium heat and sauté the onions until golden.",
-                            "tip": "Stir continuously to prevent burning."
-                        }
-                    ]
-                }
-            `);
-
-            const lastStep = await generateContentAI(`
-                Generate in french, the final step for serving the dish "${title}" from "${country}" and a proverb from ${country} about meal".
-                Please return the response in JSON format like this:
-                {
-                    "step": "dégustative",
-                    "description": "Bon appétit !",
-                    "proverb": "In ${country}, we say lorem ipsum... which means: lorem ipsum..."
-                }
-            `);
+            const [metadataAndSteps, lastStep] = await Promise.all([
+                generateContentAI(`
+                    Generate a french detailed preparation process for "${title}" from "${country}" based on the following ingredients: ${ingredients}. 
+                    Each step should be clear and concise and exclude the last step (serving).
+                    Please return the response in JSON format like this:
+    
+                    {
+                        "steps": [
+                            {
+                                "step": 1 (10 minutes),
+                                "description": "Peel and chop the vegetables into small pieces.",
+                                "tip": "Use a sharp knife to make chopping easier."
+                            },
+                            {
+                                "step": 2 (5 minutes),
+                                "description": "Heat oil in a pan over medium heat and sauté the onions until golden.",
+                                "tip": "Stir continuously to prevent burning."
+                            }
+                        ]
+                    }
+                `),
+                generateContentAI(`
+                    Generate in french a proverb from ${country} about meal".
+                    Please return the response in JSON format like this:
+                    {
+                        "step": "dégustative",
+                        "description": "Bon appétit !",
+                        "proverb": "In ${country}, we say lorem ipsum... which means: lorem ipsum..."
+                    }
+                `)
+            ])
             
             const fullRecipe = {
                 ...metadataAndSteps,
