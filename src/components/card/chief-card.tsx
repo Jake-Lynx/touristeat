@@ -16,7 +16,6 @@ export default function ChiefCard(
                 alt={`Plat: ${title}`}
                 width={173}
                 height={118}
-                style={{ width: 'auto', height: 'auto' }}
             />
             <div className="discovery-card__content">
                 <p className="discovery-card__details">

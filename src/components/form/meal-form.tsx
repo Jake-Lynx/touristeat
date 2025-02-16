@@ -176,20 +176,22 @@ export default function MealForm(
                         "tip": "Stir continuously to prevent burning."
                         }
                         {
-                        "step": 8 (last step),
+                        "step": 3,
                         "description": "Heat oil in a pan over medium heat and sauté the onions until golden.",
-                        "estimated_time": "0 minutes, enjoy your meal !",
-                        "tip": "Stir continuously to prevent burning."
+                        "estimated_time": "2 minutes",
+                        "tip": "Stir continuously to prevent burning.",
+                        "proverb": 'In ${country}, we say "lorem ipsum..." which means "lorem ipsum..."'
                         }
                     ]
                 }
+                For last step, the description should be "Bon appétit !", the estimated time should be "0 minute" hide tip and show proverb. Proverb should be shown in italic and only at last step.
             `)
 
             // Format content in TipTap
             let formattedContent = ''
 
             processNeeded.steps.forEach((step: any) => {
-                formattedContent += `<h3>Étape ${step.step}</h3>\n<p>${step.description}</p>\n<p><b>Temps estimé</b> :\n ${step.estimated_time}</p>\n<p><b>Conseil</b> :\n ${step.tip}</p>\n`
+                formattedContent += `<h3>Étape ${step.step}</h3>\n<p>${step.description}</p>\n<p><b>Temps estimé</b> :\n ${step.estimated_time}</p>\n<p><b>${step.tip ? 'Conseil' : 'Proverbe de fin'}</b> :\n ${step.tip || step.proverb}</p>\n`
             })
 
             setValue('cookingProcess', formattedContent)
@@ -218,16 +220,16 @@ export default function MealForm(
 
 
             if (!response?.success) {
-                toast.error("Une erreur est survenue lors de l'ajout de la recette. Veuillez réessayer plus tard.");
+                toast.error(response.message);
                 return;
             }
 
             reset()
             setHostedUrl('')
             if (mode === 'create') {
-                toast.success(`La recette "${data.title}" a été ajoutée avec succès.`)
+                toast.success(response.message)
             } else {
-                toast.success(`La recette "${data.title}" a été modifiée avec succès.`)
+                toast.success(response.message)
             }
             router.push('/admin/meals')
         } catch (error) {

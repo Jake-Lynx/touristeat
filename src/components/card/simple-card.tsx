@@ -13,7 +13,6 @@ const SimpleMealCard = (
             alt={`Plat: ${title}`}
             width={173}
             height={118}
-            style={{ width: 'auto', height: 'auto' }}
         />
         <p className="home-card__title">
             {title}

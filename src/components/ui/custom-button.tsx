@@ -2,17 +2,21 @@
 
 import toast from "react-hot-toast"
 import { deleteMeal } from "@/actions/meals"
+import { useRouter } from "next/navigation"
+
 
 export function DeleteMealButton({ id }: { id: string }) {
+    const router = useRouter()
 
     const handleClick = async () => {
         const response = await deleteMeal(id)
 
-        if (response.message) {
-            toast.success('Plat supprimé avec succès')
+        if (response?.success) {
+            toast.success(response.message)
         } else {
-            toast.error('Echec de la suppression du plat')            
+            toast.error(response.message)            
         }
+        router.push('/admin/meals')
     }
 
     return (

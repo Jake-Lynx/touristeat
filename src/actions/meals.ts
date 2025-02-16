@@ -187,12 +187,13 @@ export async function updateMeal(
     
         return {
             success: true,
+            message: `Recette "${parsedData.title}" a été ajoutée avec succès.`,
             data: updatedMeal,
         }
     } catch (error) {
         return {
             sucess: false,
-            message: `Echec de la mise à jour du plat: ${error}`,
+            message: "Une erreur est survenue lors de l'ajout de la recette. Veuillez réessayer plus tard.",
         }
     }    
 }
@@ -205,15 +206,20 @@ export async function deleteMeal(id: string) {
                 id: id
             }
         })
-    } catch (error) {
+
+        // Revalidate & refresh cache
+        revalidateTag('meals')
+
         return {
-            message: `Echec de la suppression du plat: ${error}`
+            success: true,
+            message: 'Plat supprimé avec succès'
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Echec de la suppression du plat"
         }
     }
 
-    // Revalidate & refresh cache
-    revalidateTag('meals')
-
-    // Redirect to meals page after deleting the meal
-    redirect('/admin/meals')
 }
