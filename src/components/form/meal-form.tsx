@@ -157,27 +157,20 @@ export default function MealForm(
         try {
 
             const metadataAndSteps = await generateContentAI(`
-                Generate a french detailed step-by-step preparation process for "${title}" from "${country}" based on the following ingredients: ${ingredients}. 
-                Each step should be clear and concise, using simple instructions that are easy to follow. If necessary, include estimated time for each step and important tips.
-                
-                Exclude the last step (serving) from this response.
-            
+                Generate a french detailed preparation process for "${title}" from "${country}" based on the following ingredients: ${ingredients}. 
+                Each step should be clear and concise and exclude the last step (serving).
                 Please return the response in JSON format like this:
+
                 {
-                    "recipe": "[Dish Name]",
-                    "servings": [Number of people],
-                    "preparation_time": "[Total estimated time]",
                     "steps": [
                         {
-                            "step": 1,
+                            "step": 1 (10 minutes),
                             "description": "Peel and chop the vegetables into small pieces.",
-                            "estimated_time": "10 minutes",
                             "tip": "Use a sharp knife to make chopping easier."
                         },
                         {
-                            "step": 2,
+                            "step": 2 (5 minutes),
                             "description": "Heat oil in a pan over medium heat and sauté the onions until golden.",
-                            "estimated_time": "5 minutes",
                             "tip": "Stir continuously to prevent burning."
                         }
                     ]
@@ -185,12 +178,7 @@ export default function MealForm(
             `);
 
             const lastStep = await generateContentAI(`
-                Generate in french, the final step for serving the dish "${title}" from "${country}". The step should be:
-            
-                - Description: "Bon appétit !"
-                - No tip
-                - A proverb from "${country}" related to food, formatted in italic.
-            
+                Generate in french, the final step for serving the dish "${title}" from "${country}" and a proverb from ${country} about meal".
                 Please return the response in JSON format like this:
                 {
                     "step": "dégustative",
@@ -207,7 +195,7 @@ export default function MealForm(
             let formattedContent = ''
 
             fullRecipe.steps.forEach((step: any) => {
-                formattedContent += `<h3>Étape ${step.step}</h3>\n<p>${step.description}</p>${step.estimated_time ? `\n<p><b>Temps estimé</b> :\n ${step.estimated_time}</p>\n` : ''}<p><b>${step.tip ? 'Conseil' : 'Proverbe de fin'}</b> :\n ${step.tip || step.proverb}</p>\n`
+                formattedContent += `<h3>Étape ${step.step}</h3>\n<p>${step.description}</p><p><b>${step.tip ? 'Conseil' : 'Proverbe de fin'}</b> :\n ${step.tip || step.proverb}</p>\n`
             })
 
             setValue('cookingProcess', formattedContent)
