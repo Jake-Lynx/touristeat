@@ -9,7 +9,7 @@ export default function Logo() {
                src='/logo.svg'
                alt="app logo"
                className="nav__header-logo"
-               width={150}
+               width={40}
                height={40}
                priority={true}
             />

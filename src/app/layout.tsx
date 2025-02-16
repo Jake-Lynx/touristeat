@@ -24,7 +24,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: "Touristeat",
-  description: "Discover world dishes",
+  description: "Cuisinez des recettes provenant des 4 coins du monde",
 };
 
 export default function RootLayout({
