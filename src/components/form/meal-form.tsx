@@ -155,8 +155,13 @@ export default function MealForm(
         setLoading({name: 'process', status: true})
         
         try {
-            const processNeeded = await generateContentAI(`
-                Generate a french detailed step-by-step preparation process for "${title}" from "${country}" based on the following ingredients: ${ingredients}. Each step should be clear and concise, using simple instructions that are easy to follow. If necessary, include estimated time for each step and important tips.
+
+            const metadataAndSteps = await generateContentAI(`
+                Generate a french detailed step-by-step preparation process for "${title}" from "${country}" based on the following ingredients: ${ingredients}. 
+                Each step should be clear and concise, using simple instructions that are easy to follow. If necessary, include estimated time for each step and important tips.
+                
+                Exclude the last step (serving) from this response.
+            
                 Please return the response in JSON format like this:
                 {
                     "recipe": "[Dish Name]",
@@ -164,34 +169,45 @@ export default function MealForm(
                     "preparation_time": "[Total estimated time]",
                     "steps": [
                         {
-                        "step": 1,
-                        "description": "Peel and chop the vegetables into small pieces.",
-                        "estimated_time": "10 minutes",
-                        "tip": "Use a sharp knife to make chopping easier."
+                            "step": 1,
+                            "description": "Peel and chop the vegetables into small pieces.",
+                            "estimated_time": "10 minutes",
+                            "tip": "Use a sharp knife to make chopping easier."
                         },
                         {
-                        "step": 2,
-                        "description": "Heat oil in a pan over medium heat and sauté the onions until golden.",
-                        "estimated_time": "5 minutes",
-                        "tip": "Stir continuously to prevent burning."
-                        }
-                        {
-                        "step": 3,
-                        "description": "Heat oil in a pan over medium heat and sauté the onions until golden.",
-                        "estimated_time": "2 minutes",
-                        "tip": "Stir continuously to prevent burning.",
-                        "proverb": 'In ${country}, we say "lorem ipsum..." which means "lorem ipsum..."'
+                            "step": 2,
+                            "description": "Heat oil in a pan over medium heat and sauté the onions until golden.",
+                            "estimated_time": "5 minutes",
+                            "tip": "Stir continuously to prevent burning."
                         }
                     ]
                 }
-                For last step, the description should be "Bon appétit !", the estimated time should be "0 minute" hide tip and show proverb. Proverb should be shown in italic and only at last step.
-            `)
+            `);
 
-            // Format content in TipTap
+            const lastStep = await generateContentAI(`
+                Generate in french, the final step for serving the dish "${title}" from "${country}". The step should be:
+            
+                - Description: "Bon appétit !"
+                - No tip
+                - A proverb from "${country}" related to food, formatted in italic.
+            
+                Please return the response in JSON format like this:
+                {
+                    "step": "dégustative",
+                    "description": "Bon appétit !",
+                    "proverb": "In ${country}, we say lorem ipsum... which means: lorem ipsum..."
+                }
+            `);
+            
+            const fullRecipe = {
+                ...metadataAndSteps,
+                steps: [...metadataAndSteps.steps, lastStep]
+            };
+            
             let formattedContent = ''
 
-            processNeeded.steps.forEach((step: any) => {
-                formattedContent += `<h3>Étape ${step.step}</h3>\n<p>${step.description}</p>\n<p><b>Temps estimé</b> :\n ${step.estimated_time}</p>\n<p><b>${step.tip ? 'Conseil' : 'Proverbe de fin'}</b> :\n ${step.tip || step.proverb}</p>\n`
+            fullRecipe.steps.forEach((step: any) => {
+                formattedContent += `<h3>Étape ${step.step}</h3>\n<p>${step.description}</p>${step.estimated_time ? `\n<p><b>Temps estimé</b> :\n ${step.estimated_time}</p>\n` : ''}<p><b>${step.tip ? 'Conseil' : 'Proverbe de fin'}</b> :\n ${step.tip || step.proverb}</p>\n`
             })
 
             setValue('cookingProcess', formattedContent)

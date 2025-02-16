@@ -34,12 +34,11 @@ export default function HeroSpecificMeal(
 
             <div className="specific-recipe-hero__main-section">
                 <Image
-                    className="specific-recipe-hero__image fade-in"
+                    className="specific-recipe-hero__image fade-in w-[300px] h-[300px] rounded-lg"
                     src={`${imageUrl}`}
                     alt={`Plat: ${title}`}
-                    width={400}
-                    height={400}
-                    style={{ width: 'auto', height: 'auto' }}
+                    width={300}
+                    height={300}
                 />
                 <div className="specific-recipe-hero__social">
                     <Link 

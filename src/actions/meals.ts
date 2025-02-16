@@ -2,7 +2,6 @@
 
 import prisma from "@/lib/prisma"
 import { revalidateTag } from "next/cache"
-import { redirect } from "next/navigation"
 import { unstable_cache } from "next/cache"
 import slugify from "react-slugify"
 import { operationMealSchema } from "@/utils/schema"
@@ -36,13 +35,15 @@ export async function createMeal(formData: FormData) {
         // Retourner un objet de succès avant la redirection
         return {
             success: true,
+            message: `Recette "${parsedData.title}" ajoutée avec succès.`,
             data: meal
         }
         
     } catch (error) {
+        console.log("error: ", error)
         return {
             sucess: false,
-            message: `Erreur base de données: échec lors de la création du plat: ${error}`,
+            message: `Erreur base de données: échec lors de la création de la recette`,
         }
     }
 }
@@ -173,7 +174,7 @@ export async function updateMeal(
             cookingTime: data.cookingTime,
         })
 
-        const updatedMeal =await prisma.meal.update({
+        const updatedMeal = await prisma.meal.update({
             where: {
                 id: id
             },
@@ -187,13 +188,13 @@ export async function updateMeal(
     
         return {
             success: true,
-            message: `Recette "${parsedData.title}" a été ajoutée avec succès.`,
+            message: `Recette "${parsedData.title}" modifiée avec succès.`,
             data: updatedMeal,
         }
     } catch (error) {
         return {
             sucess: false,
-            message: "Une erreur est survenue lors de l'ajout de la recette. Veuillez réessayer plus tard.",
+            message: "Erreur lors de l'ajout de la recette. Veuillez réessayer plus tard.",
         }
     }    
 }
