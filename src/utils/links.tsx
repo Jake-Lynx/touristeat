@@ -32,4 +32,9 @@ export const links: NavLinksProps[] = [
         label: 'Contact',
         imagePath: pathPrefix('hamburger')
     },
+    {
+        href: '/admin',
+        label: 'admin',
+        imagePath: pathPrefix('cake')
+    },
 ]
